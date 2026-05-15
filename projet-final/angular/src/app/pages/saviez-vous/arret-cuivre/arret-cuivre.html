@@ -1,0 +1,133 @@
+<div class="sv-page" appGlossaireLink>
+
+  <!-- HEADER -->
+  <div class="sv-header">
+    <a routerLink="/saviez-vous" class="sv-back">← Retour</a>
+    <div class="sv-title-wrap">
+      <span class="sv-emoji">📡</span>
+      <h1 class="sv-h1">Arrêt du cuivre</h1>
+    </div>
+    <p class="sv-subtitle">La fermeture progressive du réseau cuivre est en marche. Préparez votre transition vers la fibre.</p>
+  </div>
+
+  <!-- ALERTE -->
+  <div class="sv-alert">
+    <span class="sv-alert-icon">⚠️</span>
+    <span><strong>Objectif 2030</strong> — Orange prévoit la fermeture complète du réseau cuivre d'ici 2030.</span>
+  </div>
+
+  <!-- RECHERCHE COMMUNE -->
+  <section class="sv-sec tc">
+    <h2 class="sv-sec-title">🔍 Votre commune est-elle concernée ?</h2>
+    <p class="sv-sec-sub">Recherchez votre commune pour connaître les dates de fermeture du réseau cuivre.</p>
+    <div class="ac-search-wrap">
+      <div class="ac-search-box">
+        <span class="ac-search-icon">🔍</span>
+        <input
+          class="ac-search-input"
+          type="text"
+          placeholder="Saisissez le nom de votre commune..."
+          [(ngModel)]="communeQuery"
+          (input)="rechercherCommune()"
+          (blur)="masquerSuggestions()"
+          autocomplete="off"
+        />
+      </div>
+
+      @if (suggestions().length > 0) {
+        <div class="ac-suggestions">
+          @for (s of suggestions(); track s.id) {
+            <button class="ac-suggestion-item" (mousedown)="selectionnerCommune(s)">
+              <span class="ac-sug-nom">{{ s.commune }}</span>
+              <span class="ac-sug-cp">{{ s.code_postal }}</span>
+            </button>
+          }
+        </div>
+      }
+
+      @if (chargement) {
+        <div class="ac-search-result" style="text-align:center">⏳ Recherche en cours…</div>
+      }
+
+      @if (erreur && !chargement && !resultat()) {
+        <div class="ac-search-result" style="color:#d84040">{{ erreur }}</div>
+      }
+
+      @if (resultat(); as commune) {
+        <div class="ac-search-result">
+          <div style="margin-bottom:16px">
+            <strong style="font-size:18px">📍 {{ commune.commune }}</strong><br>
+            <span style="color:#888;font-size:14px">{{ commune.code_postal }} — {{ commune.region }}</span>
+          </div>
+
+          <div style="background:#f5f5f5;padding:12px;border-radius:6px;text-align:left">
+            <div style="margin-bottom:10px">
+              <strong>⚠️ Fermeture commerciale</strong><br>
+              <span style="font-size:14px">{{ formatDate(commune.date_fermeture_commerciale) }}</span>
+              @switch (commune.statut) {
+                @case ('programmee') {
+                  <span style="color:#ff9800;font-weight:bold"> · Programmée</span>
+                }
+                @case ('effective') {
+                  <span style="color:#4CAF50;font-weight:bold"> · Effective</span>
+                }
+                @case ('effectuee') {
+                  <span style="color:#2196F3;font-weight:bold"> · Effectuée</span>
+                }
+              }
+            </div>
+
+            <div>
+              <strong>🔌 Fermeture technique</strong><br>
+              <span style="font-size:14px">{{ formatDate(commune.date_fermeture_technique) }}</span>
+            </div>
+          </div>
+
+          @if (!commune.date_fermeture_commerciale) {
+            <p style="margin-top:12px;color:#666;font-size:13px">
+              ⓘ Votre commune n'a pas encore de date de fermeture programmée.
+            </p>
+          }
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- CE QU'IL FAUT SAVOIR -->
+  <div class="sv-sec-alt">
+    <div class="sv-sec-alt-inner tc">
+      <h2 class="sv-sec-title">Ce qu'il faut savoir</h2>
+      <div class="sv-cards3" style="margin-top:32px">
+
+        <div class="sv-card">
+          <div class="sv-card-icon-wrap">📅</div>
+          <h3>Calendrier</h3>
+          <p>La fermeture se fait par lots de communes, avec un préavis minimum de 18 mois avant la coupure effective.</p>
+        </div>
+
+        <div class="sv-card sv-card2">
+          <div class="sv-card-icon-wrap" style="background:rgba(0,180,216,0.1);border-color:rgba(0,180,216,0.3)">📶</div>
+          <h3>Services concernés</h3>
+          <p>Téléphonie fixe (RTC), ADSL et VDSL seront définitivement arrêtés sur les zones fermées.</p>
+        </div>
+
+        <div class="sv-card sv-card3">
+          <div class="sv-card-icon-wrap" style="background:rgba(0,119,182,0.1);border-color:rgba(0,119,182,0.25)">📍</div>
+          <h3>Votre commune</h3>
+          <p>Consultez le site de l'ARCEP pour savoir si votre commune est concernée par une fermeture programmée.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- LIENS OFFICIELS -->
+  <div class="sv-links">
+    <div class="sv-links-title">Liens officiels</div>
+    <div class="sv-links-row">
+      <a href="https://www.arcep.fr/nos-sujets/la-fermeture-du-reseau-cuivre.html" target="_blank" class="sv-link-chip">↗ Pilotage ARCEP — Fermeture du cuivre</a>
+      <a href="https://www.entreprises.gouv.fr/la-dge/actualites/plan-france-tres-haut-debit-le-site-internet-dedie-se-dote-dun-nouveau-module-de" target="_blank" class="sv-link-chip">↗ Plan France Très Haut Débit</a>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,91 @@
+<div class="admin-wrap">
+
+  <!-- ══ EN-TÊTE ══ -->
+  <div class="admin-head">
+    <div>
+      <div class="lbl">Administration</div>
+      <h1 class="big">Rendez-vous <span class="hl">Admin</span></h1>
+    </div>
+    <div class="admin-stats">
+      <div class="astat"><span class="astat-n">{{ nbParStatut.tous }}</span><span class="astat-l">Total</span></div>
+      <div class="astat"><span class="astat-n">{{ nbParStatut.en_attente }}</span><span class="astat-l">En attente</span></div>
+      <div class="astat"><span class="astat-n">{{ nbParStatut.confirme }}</span><span class="astat-l">Confirmés</span></div>
+      <div class="astat"><span class="astat-n">{{ nbParStatut.annule }}</span><span class="astat-l">Annulés</span></div>
+    </div>
+  </div>
+
+  <!-- ══ FILTRES ══ -->
+  <div class="ardv-filtres" style="margin-bottom:20px">
+    <button class="ardv-filtre" [class.active]="filtre() === 'tous'"       (click)="filtre.set('tous')">Tous <span class="ardv-badge">{{ nbParStatut.tous }}</span></button>
+    <button class="ardv-filtre" [class.active]="filtre() === 'en_attente'" (click)="filtre.set('en_attente')">En attente <span class="ardv-badge a">{{ nbParStatut.en_attente }}</span></button>
+    <button class="ardv-filtre" [class.active]="filtre() === 'confirme'"   (click)="filtre.set('confirme')">Confirmés <span class="ardv-badge c">{{ nbParStatut.confirme }}</span></button>
+    <button class="ardv-filtre" [class.active]="filtre() === 'annule'"     (click)="filtre.set('annule')">Annulés <span class="ardv-badge x">{{ nbParStatut.annule }}</span></button>
+  </div>
+
+  <!-- ══ CHARGEMENT ══ -->
+  @if (chargement) {
+    <div class="ardv-loading"><div class="ardv-spinner"></div><p>Chargement…</p></div>
+  }
+
+  <!-- ══ ERREUR ══ -->
+  @if (erreur) {
+    <p style="color:#e05050;text-align:center;padding:40px">Impossible de charger les rendez-vous.</p>
+  }
+
+  <!-- ══ LISTE VIDE ══ -->
+  @if (!chargement && !erreur && rdvFiltres.length === 0) {
+    <p style="color:#4A6275;text-align:center;padding:40px">
+      Aucun rendez-vous{{ filtre() !== 'tous' ? ' dans cette catégorie' : '' }}.
+    </p>
+  }
+
+  <!-- ══ CARTES RDV ══ -->
+  @for (rdv of rdvFiltres; track rdv.id) {
+    <div class="ardv-card"
+         [class.confirme]="rdv.statut === 'confirme'"
+         [class.annule]="rdv.statut === 'annule'"
+         [class.en_attente]="rdv.statut === 'en_attente'">
+
+      <div class="ardv-card-main">
+        <div class="ardv-row1">
+          <span class="ardv-nom">
+            <span class="ardv-client-label">Client</span>{{ rdv.nom }}
+          </span>
+          <span class="ardv-statut" [class]="'s-' + rdv.statut">
+            @if (rdv.statut === 'confirme')   { ✅ Confirmé }
+            @if (rdv.statut === 'en_attente') { 🟡 En attente }
+            @if (rdv.statut === 'annule')     { 🔴 Annulé }
+          </span>
+        </div>
+
+        <div class="ardv-infos">
+          <span>📅 {{ formatDate(rdv.date) }}</span>
+          <span>🕐 {{ rdv.heure }}</span>
+          <span>✉ {{ rdv.email }}</span>
+          <span>📞 {{ rdv.telephone }}</span>
+          @if (rdv.adresse) { <span>📍 {{ rdv.adresse }}</span> }
+        </div>
+
+        <div class="ardv-meta">
+          Service : {{ rdv.service }}
+          @if (rdv.rubrique) { · Rubrique : {{ rdv.rubrique }} }
+          @if (rdv.notes)    { · <em>{{ rdv.notes }}</em> }
+        </div>
+      </div>
+
+      <div class="ardv-actions">
+        @if (rdv.statut !== 'confirme') {
+          <button class="ardv-btn-confirm" (click)="changerStatut(rdv, 'confirme')">✅ Confirmer</button>
+        }
+        @if (rdv.statut !== 'annule') {
+          <button class="ardv-btn-annul" (click)="changerStatut(rdv, 'annule')">✕ Annuler</button>
+        }
+        @if (rdv.statut === 'annule') {
+          <button class="ardv-btn-confirm" (click)="changerStatut(rdv, 'en_attente')">↩ Remettre</button>
+        }
+      </div>
+
+    </div>
+  }
+
+</div>

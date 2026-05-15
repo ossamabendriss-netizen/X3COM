@@ -1,0 +1,27 @@
+# web-commerce-projet
+Site e-commerce développé dans le cadre d'un stage informatique
+
+== Contexte
+Ce projet a été réalisé dans le cadre d'un stage et a pour objectif l'apprentissage et la mise en pratique de nouvelles technologies.
+
+== Propriété intellectuelle
+Le code source de ce projet est partagé à des fins exclusivement éducatives.
+Les éléments graphiques présents dans le dossier `/projet-final/angular/public`, `/Maquette` et `/logo` (logos, illustrations, icônes, images) sont la propriété exclusive de Rayan SABOUN © 2026. Toute reproduction, modification, distribution ou utilisation de ces assets, sans autorisation écrite préalable, est strictement interdite.
+
+
+== Gestion de projet & Qualité
+
+==== Lien important
+===== Navigation
+[cols="5*", options="header"]
+|============================================================================
+| Date       | Nom                                       | Lien | Retour | lien fonctionel
+|            | Version courante                          | https://github.com/Gourdmandise/web-commerce-projet/releases/tag/Version-1[v1]     |  | ✓
+|            | Template                                  | link:https://github.com/users/Gourdmandise/projects/2[Template]     |  | ✓
+|            | Issue                                     | link:https://github.com/Gourdmandise/web-commerce-projet/issues?q=is%3Aissue%20state%3Aopen%20no%3Amilestone[Issue]     |  | ✓
+|            | Maquette V1                               | link:https://github.com/Gourdmandise/web-commerce-projet/tree/main/Maquette/v1[Maquette]     |  | ✓
+|            | Maquette V2                               | link:https://github.com/Gourdmandise/web-commerce-projet/tree/main/Maquette/v2[Maquette]     |  | ✓
+|            | Logo                                      | link:https://github.com/Gourdmandise/web-commerce-projet/tree/main/Logo[Logo]     |  | ✓
+|            | Document technique                        | link:https://github.com/Gourdmandise/web-commerce-projet/blob/main/document/Document%20Technique.pdf[Technique]     |  | ✓
+|            | Document utilisateur                      | link:https://github.com/Gourdmandise/web-commerce-projet/blob/main/document/Document%20Utilisateur.pdf[Utilisateur]     |  | ✓
+|============================================================================
